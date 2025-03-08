@@ -35,15 +35,41 @@ function operate(a, b, op){
 }
 
 /*  Add button functionality  */
+
 const container = document.querySelector(".container");
+let displayValue = "0";
+let firstOperand = null;
+let secondOperand = null;
+let firstOperator = null;
+let secondOperator = null;
+
+updateDisplay();
+
+// get buttons
 const numbers = container.querySelectorAll(".number");
-const display = container.querySelector(".display");
+const operators = container.querySelectorAll(".operator");
+const equals = container.querySelector(".equals");
+const clearBtn = container.querySelector(".clear");
+
+
+
+function updateDisplay(){
+    const display = container.querySelector(".display");
+    display.textContent = displayValue;
+}
 
 numbers.forEach(number => {
-    
-
     number.addEventListener("click", () => {
-        display.textContent = number.textContent;
+        if (displayValue === "0" || displayValue === 0){
+            displayValue = number.textContent;
+        } else {
+            displayValue += number.textContent;
+        }
+        updateDisplay();
     });
+});
 
+clearBtn.addEventListener("click", () => {
+    displayValue = "0";
+    updateDisplay();
 })

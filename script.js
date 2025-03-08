@@ -33,3 +33,17 @@ function operate(a, b, op){
             return;
     }
 }
+
+/*  Add button functionality  */
+const container = document.querySelector(".container");
+const numbers = container.querySelectorAll(".number");
+const display = container.querySelector(".display");
+
+numbers.forEach(number => {
+    
+
+    number.addEventListener("click", () => {
+        display.textContent = number.textContent;
+    });
+
+})

@@ -29,10 +29,20 @@ numbers.forEach(number => {
     );
 });
 
+function resetCalc(){
+    firstOperand = null;
+    secondOperand = null;
+    currentOperator = null;
+    result = null;
+    resultDisplayed = false;
+}
+
 function handleNumber(number) {
+    // if (resultDisplayed) resetCalc();
     if (currentOperator === null){
         if (displayValue === "0" || displayValue === 0 || resultDisplayed){
             displayValue = number;
+            resultDisplayed = false;
         } else {
             displayValue += number;
         }
@@ -40,6 +50,7 @@ function handleNumber(number) {
         if(displayValue === firstOperand || resultDisplayed){
             displayValue = number;
             secondOperand = number;
+            resultDisplayed = false;
         } else {
             displayValue += number;
             secondOperand += number;
@@ -60,7 +71,7 @@ function handleOperation(op){
         displayValue = result;
         firstOperand = result;
         currentOperator = null;
-        resultDisplayed = true;
+        //resultDisplayed = true;
         //console.log(resultDisplayed);
     }
     currentOperator = op;
@@ -86,7 +97,7 @@ function clearDisplay(){
     secondOperand = null;
     currentOperator = null;
     result = null;
-    //resultDisplayed = false;
+    resultDisplayed = false;
     updateDisplay();
 }
 

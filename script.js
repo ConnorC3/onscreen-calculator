@@ -1,3 +1,102 @@
+/*  Add button functionality  */
+
+const container = document.querySelector(".container");
+let displayValue = "0";
+let firstOperand = null;
+let secondOperand = null;
+let currentOperator = null;
+let result = null;
+let resultDisplayed = false;
+
+updateDisplay();
+
+// get buttons
+const numbers = container.querySelectorAll(".number");
+const operators = container.querySelectorAll(".operator");
+const equals = container.querySelector(".equals");
+const clearBtn = container.querySelector(".clear");
+
+
+
+function updateDisplay(){
+    const display = container.querySelector(".display");
+    display.textContent = displayValue;
+}
+
+numbers.forEach(number => {
+    number.addEventListener("click", () => 
+        handleNumber(number.textContent)
+    );
+});
+
+function handleNumber(number) {
+    if (currentOperator === null){
+        if (displayValue === "0" || displayValue === 0 || resultDisplayed){
+            displayValue = number;
+        } else {
+            displayValue += number;
+        }
+    } else {
+        if(displayValue === firstOperand || resultDisplayed){
+            displayValue = number;
+            secondOperand = number;
+        } else {
+            displayValue += number;
+            secondOperand += number;
+        }
+    }
+
+    //console.log(number);
+    updateDisplay();
+}
+
+operators.forEach(op => {
+    op.addEventListener('click', () => handleOperation(op.textContent));
+})
+
+function handleOperation(op){
+    if (currentOperator !== null){
+        result = operate(Number(firstOperand), Number(secondOperand), currentOperator);
+        displayValue = result;
+        firstOperand = result;
+        currentOperator = null;
+        resultDisplayed = true;
+        //console.log(resultDisplayed);
+    }
+    currentOperator = op;
+    firstOperand = displayValue;
+    updateDisplay();
+}
+
+equals.addEventListener('click', () => {
+    if (firstOperand !== null && secondOperand !== null){
+        result = operate(Number(firstOperand), Number(secondOperand), currentOperator);
+        displayValue = result;
+        resultDisplayed = true;
+        console.log(resultDisplayed);
+        updateDisplay();
+    } 
+})
+
+clearBtn.addEventListener("click", clearDisplay);
+
+function clearDisplay(){
+    displayValue = "0";
+    firstOperand = null;
+    secondOperand = null;
+    currentOperator = null;
+    result = null;
+    //resultDisplayed = false;
+    updateDisplay();
+}
+
+
+/*********************************/
+
+
+
+/* MATH FUNCTIONS */
+
 function add(a, b){
     return a + b;
 }
@@ -11,6 +110,9 @@ function multiply(a, b){
 }
 
 function divide(a, b){
+    if (b === 0){
+        return "Error: Division by 0";
+    } 
     return a / b;
 }
 
@@ -33,43 +135,3 @@ function operate(a, b, op){
             return;
     }
 }
-
-/*  Add button functionality  */
-
-const container = document.querySelector(".container");
-let displayValue = "0";
-let firstOperand = null;
-let secondOperand = null;
-let firstOperator = null;
-let secondOperator = null;
-
-updateDisplay();
-
-// get buttons
-const numbers = container.querySelectorAll(".number");
-const operators = container.querySelectorAll(".operator");
-const equals = container.querySelector(".equals");
-const clearBtn = container.querySelector(".clear");
-
-
-
-function updateDisplay(){
-    const display = container.querySelector(".display");
-    display.textContent = displayValue;
-}
-
-numbers.forEach(number => {
-    number.addEventListener("click", () => {
-        if (displayValue === "0" || displayValue === 0){
-            displayValue = number.textContent;
-        } else {
-            displayValue += number.textContent;
-        }
-        updateDisplay();
-    });
-});
-
-clearBtn.addEventListener("click", () => {
-    displayValue = "0";
-    updateDisplay();
-})

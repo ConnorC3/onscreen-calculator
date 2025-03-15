@@ -2,8 +2,8 @@
 
 const container = document.querySelector(".container");
 let displayValue = "0";
-let firstOperand = null;
-let secondOperand = null;
+let firstNumber = null;
+let secondNumber = null;
 let currentOperator = null;
 let result = null;
 let resultDisplayed = false;
@@ -30,8 +30,8 @@ numbers.forEach(number => {
 });
 
 function resetCalc(){
-    firstOperand = null;
-    secondOperand = null;
+    firstNumber = null;
+    secondNumber = null;
     currentOperator = null;
     result = null;
     resultDisplayed = false;
@@ -39,7 +39,7 @@ function resetCalc(){
 
 function handleNumber(number) {
     // if (resultDisplayed) resetCalc();
-    if (currentOperator === null){
+    if (!currentOperator){
         if (displayValue === "0" || displayValue === 0 || resultDisplayed){
             displayValue = number;
             resultDisplayed = false;
@@ -47,13 +47,13 @@ function handleNumber(number) {
             displayValue += number;
         }
     } else {
-        if(displayValue === firstOperand || resultDisplayed){
+        if((displayValue === firstNumber && secondNumber === null) || resultDisplayed){
             displayValue = number;
-            secondOperand = number;
+            secondNumber = number;
             resultDisplayed = false;
         } else {
             displayValue += number;
-            secondOperand += number;
+            secondNumber += number;
         }
     }
 
@@ -66,24 +66,26 @@ operators.forEach(op => {
 })
 
 function handleOperation(op){
-    if (currentOperator !== null){
-        result = operate(Number(firstOperand), Number(secondOperand), currentOperator);
+    if (currentOperator && firstNumber !== null && secondNumber !== null){
+        result = operate(Number(firstNumber), Number(secondNumber), currentOperator);
         displayValue = result;
-        firstOperand = result;
+        firstNumber = result;
         currentOperator = null;
-        //resultDisplayed = true;
-        //console.log(resultDisplayed);
+        secondNumber = null;
     }
+
     currentOperator = op;
-    firstOperand = displayValue;
+    firstNumber = displayValue;
     updateDisplay();
 }
 
 equals.addEventListener('click', () => {
-    if (firstOperand !== null && secondOperand !== null){
-        result = operate(Number(firstOperand), Number(secondOperand), currentOperator);
+    if (firstNumber !== null && secondNumber !== null && currentOperator){
+        result = operate(Number(firstNumber), Number(secondNumber), currentOperator);
         displayValue = result;
         resultDisplayed = true;
+        currentOperator = null;
+        secondNumber = null;
         console.log(resultDisplayed);
         updateDisplay();
     } 
@@ -93,8 +95,8 @@ clearBtn.addEventListener("click", clearDisplay);
 
 function clearDisplay(){
     displayValue = "0";
-    firstOperand = null;
-    secondOperand = null;
+    firstNumber = null;
+    secondNumber = null;
     currentOperator = null;
     result = null;
     resultDisplayed = false;

@@ -1,6 +1,6 @@
 /*  Add button functionality  */
 
-const container = document.querySelector(".container");
+const calculator = document.querySelector(".calculator");
 let displayValue = "0";
 let firstNumber = null;
 let secondNumber = null;
@@ -11,15 +11,15 @@ let resultDisplayed = false;
 updateDisplay();
 
 // get buttons
-const numbers = container.querySelectorAll(".number");
-const operators = container.querySelectorAll(".operator");
-const equals = container.querySelector(".equals");
-const clearBtn = container.querySelector(".clear");
+const numbers = calculator.querySelectorAll(".number");
+const operators = calculator.querySelectorAll(".operator");
+const equals = calculator.querySelector(".equals");
+const clearBtn = calculator.querySelector(".clear");
 
 
 
 function updateDisplay(){
-    const display = container.querySelector(".display");
+    const display = calculator.querySelector(".display");
     display.textContent = displayValue;
 }
 

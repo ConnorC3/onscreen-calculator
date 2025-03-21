@@ -81,9 +81,7 @@ function clearDisplay(){
 // Event Listeners
 
 numbers.forEach(number => {
-    number.addEventListener("click", () => 
-        handleNumber(number.textContent)
-    );
+    number.addEventListener("click", () => handleNumber(number.textContent));
 });
 
 operators.forEach(op => {

@@ -1,7 +1,7 @@
 /*  Add button functionality  */
 
 const calculator = document.querySelector(".calculator");
-let displayValue = "0";
+let displayValue = 0;
 let firstNumber = null;
 let secondNumber = null;
 let currentOperator = null;
@@ -15,7 +15,7 @@ const numbers = calculator.querySelectorAll(".number");
 const operators = calculator.querySelectorAll(".operator");
 const equals = calculator.querySelector(".equals");
 const clearBtn = calculator.querySelector(".clear");
-
+const pmBtn = calculator.querySelector(".pm");
 
 
 function updateDisplay(){
@@ -56,14 +56,21 @@ function handleNumber(number) {
             secondNumber += number;
         }
     }
-
     //console.log(number);
     updateDisplay();
+    if (String(displayValue).length > 10) return;
 }
 
 operators.forEach(op => {
     op.addEventListener('click', () => handleOperation(op.textContent));
 })
+
+pmBtn.addEventListener("click", () => {
+    displayValue = -parseFloat(displayValue);
+
+    console.log(displayValue, result);
+    updateDisplay();
+});
 
 function handleOperation(op){
     if (currentOperator && firstNumber !== null && secondNumber !== null){

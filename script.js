@@ -23,12 +23,6 @@ function updateDisplay(){
     display.textContent = displayValue;
 }
 
-numbers.forEach(number => {
-    number.addEventListener("click", () => 
-        handleNumber(number.textContent)
-    );
-});
-
 function resetCalc(){
     firstNumber = null;
     secondNumber = null;
@@ -38,7 +32,6 @@ function resetCalc(){
 }
 
 function handleNumber(number) {
-    // if (resultDisplayed) resetCalc();
     if (!currentOperator){
         if (displayValue === "0" || displayValue === 0 || resultDisplayed){
             displayValue = number;
@@ -61,17 +54,6 @@ function handleNumber(number) {
     if (String(displayValue).length > 10) return;
 }
 
-operators.forEach(op => {
-    op.addEventListener('click', () => handleOperation(op.textContent));
-})
-
-pmBtn.addEventListener("click", () => {
-    displayValue = -parseFloat(displayValue);
-
-    console.log(displayValue, result);
-    updateDisplay();
-});
-
 function handleOperation(op){
     if (currentOperator && firstNumber !== null && secondNumber !== null){
         result = operate(Number(firstNumber), Number(secondNumber), currentOperator);
@@ -86,6 +68,36 @@ function handleOperation(op){
     updateDisplay();
 }
 
+function clearDisplay(){
+    displayValue = "0";
+    firstNumber = null;
+    secondNumber = null;
+    currentOperator = null;
+    result = null;
+    resultDisplayed = false;
+    updateDisplay();
+}
+
+// Event Listeners
+
+numbers.forEach(number => {
+    number.addEventListener("click", () => 
+        handleNumber(number.textContent)
+    );
+});
+
+operators.forEach(op => {
+    op.addEventListener('click', () => handleOperation(op.textContent));
+})
+
+//TODO: Fix functionality
+pmBtn.addEventListener("click", () => {
+    displayValue = -parseFloat(displayValue);
+
+    console.log(displayValue, result);
+    updateDisplay();
+});
+
 equals.addEventListener('click', () => {
     if (firstNumber !== null && secondNumber !== null && currentOperator){
         result = operate(Number(firstNumber), Number(secondNumber), currentOperator);
@@ -99,16 +111,6 @@ equals.addEventListener('click', () => {
 })
 
 clearBtn.addEventListener("click", clearDisplay);
-
-function clearDisplay(){
-    displayValue = "0";
-    firstNumber = null;
-    secondNumber = null;
-    currentOperator = null;
-    result = null;
-    resultDisplayed = false;
-    updateDisplay();
-}
 
 
 /*********************************/
